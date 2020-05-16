@@ -1,5 +1,5 @@
-GOI (H2BK) Ct values,,,,,,HKG (PPIA) Ct values,,,,,,?Ct,AVE.?Ct,??Ct (LOGfc),std error,2^??Ct fc,,,,,,
-,,,,,,,,,,,,(HK-GOI),(HK-GOI),eg.(O4-O14),,eg.2^(??Ct),,,,,,
+GOI (H2BK) Ct values,,,,,,HKG (PPIA) Ct values,,,,,,ΔCt,AVE.ΔCt,ΔΔCt (LOGfc),std error,2^ΔΔCt fc,,,,,,
+,,,,,,,,,,,,(HK-GOI),(HK-GOI),eg.(O4-O14),,eg.2^(ΔΔCt),,,,,,
 KASUMI-1,Bio Rep 1,Bio Rep 2,Bio Rep 3,Avg. Ct ,,KASUMI-1,Bio Rep 1,Bio Rep 2,Bio Rep 3,Avg. Ct ,,,,,,,,,,,,
 Tech Rep 1,25.01,25,25.07,25.02666667,,Tech Rep 1,20.77,20.88,20.6,20.75,,-4.276666667,-3.951111111,-1.595555556,0.488816914,0.330894782,,Kasumi-1,0.330894782,,Kasumi-1,-1.5955556
 Tech Rep 2,23.72,22.94,23.99,23.55,,Tech Rep 2,20.68,20.7,20.3,20.56,,-2.99,,,,,,U937,0.485205116,,U937,-1.0433333
