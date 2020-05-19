@@ -1,0 +1,104 @@
+---
+title: "ΔCt of H2BK over AML cell lines"
+author: "Connor Hobson"
+date: "18/05/2020"
+output: html_document
+---
+
+<font size="5"> **Research Question** 
+
+<font size="3"> Statistical tests are considered to be the golden standard for the analysis of clinical and research data and is often relied upon to valiate and publish results. However, are they as reliable as we think and does the graphical representation always reflect the statistics? </font>
+
+<font size="5"> **Data Origins** </font>
+
+<font size="3"> Raw ΔCycle Threshold data acquired from an unpublished study as part of final year degree project by Louise Reece </font>
+
+<font size="5"> **Data Preparation** </font>
+
+```{r TidyVerse and assigning new df for single column, eval=FALSE, echo=TRUE}
+##Loading Tidyverse from the library allows you to use the pipe %>% function to delete the unwanted columns and save the dataframe as a new dataframe named 'DeltaCycleThreshold'
+
+library(tidyverse) 
+DeltaCycleThreshold <- AML_Cell_Line_qPCR_data %>% select(contains("Delta_Cyclethreshold"))
+head(DeltaCycleThreshold)
+
+##The na.omit function allows the removal of NA values that represent empty cells in the .csv file.
+
+na.omit(DeltaCycleThreshold)
+```
+
+```{r CycleThreshold}
+##The values rounded to nearest decimal place allows you to assign the varibles of your Delta cycle Threshold values and the names of the cell lines
+
+Delta_ct_values=c(-4.3, -3, -4.6, -4.2, -2.3, -3.6, -1.9, -1.6, -3.6, -3.8, -2.2, -3.8, -3.8, -3.7, -4.1, -5.3, -2.9, -4.8)
+Cell_Lines=rep(c("Kasumi-1","U937","THP1","K562","KG1","HL60"), each=3)
+```
+
+
+```{r Turn the cell lines into factors}
+##This allows you to factorise your cell lines
+
+Cell_Lines=factor(Cell_Lines)
+
+cell_line_factor=factor(Cell_Lines)
+
+```
+
+<font size="5"> **Visualisation 1: Looking at the distribution using a boxplot** </font>
+
+```{r Data Distribution using a boxplot}
+##This should generate a boxplot of the variables that have been input earlier, with the boxes coloured and the axis' labelled
+
+boxplot(Delta_ct_values~cell_line_factor, ylab=expression(Delta*"Ct values"), xlab = "Cell Lines", main = "Box Plot Showing \u2206Ct of H2BK Across AML Cell Lines", las=2,
+col=c("darkorange","lightgreen","turquoise","purple1","aquamarine2","yellow1"))
+```
+
+<font size="5"> **Visualisation 1.1: Rearranging the plot margins ** </font>
+
+```{r Change the plot margins} 
+#This will move the x-axis out of the way of the cell line labels
+
+par(mar=c(6.5,4.1,4.1,2.1))
+
+boxplot(Delta_ct_values~cell_line_factor, ylab=expression(Delta*"Ct values"), xlab = "", main = "Box Plot Showing \u2206Ct of H2BK Across AML Cell Lines", las=2,
+col=c("darkorange","lightgreen","turquoise","purple1","aquamarine2","yellow1"))
+mtext("Cell Lines",side=1,line=5)
+
+```
+
+<font size="5"> **Statistical Tests: Comparing the statistics of the distribution to the created plot** </font>
+
+
+```{r}
+##Test for normality using Shapiro test
+
+shapiro.test(Delta_ct_values) 
+```
+
+```{r}
+##Non-parametric Test
+
+kruskal.test(Delta_ct_values~Cell_Lines)
+```
+
+```{r}
+##Parametric test 
+
+bartlett.test(Delta_ct_values ~ Cell_Lines) 
+##Check similarity between cell lines using a pairwise t test) 
+
+pairwise.t.test(Delta_ct_values, Cell_Lines, p.adj = "holm")
+
+```
+
+<font size="5"> **Discussion** </font> 
+
+<font size="3"> Using the Shapiro-Wilk test identified that the data was normally distributed. This should have given the indication of a successful Bartlett test, displaying equal variance, which in this case is what happened (P = 0.5598). When looking at the boxplot, it is clear to see that there is not equal variance across the cell lines, with the variability in the distribution of the boxes showing the interquartile ranges. Thus, it could be concluded that the results of a statistical test may not always be considered to be reliable. </font>
+
+<font size="5"> **Summary** </font>
+
+<font size="3"> From this project I have learnt a lot on the complexities and utilisation of coding and its principals. More specifically, I have learnt smaller coding techniques such as how to bold text, alter font size in html, using and knitting Rmarkdown documents and implementing symbols, namely the delta symbol by either using unicode or Delta* for better labelling.
+
+Some of the more complex skills I have developed in this module are creating a new dataframe from the imported .csv file by using Tidyverse to enable the pipe function to manually select the column I want and performing the na.omit function to the NA values. Using Rmarkdown and manipulating the chunks outside of their presets, such as the eval = false, echo = true. Factorising the cell line was also another skill I have learnt to manipulate data.
+
+If I had more time, I would have created an interactive plot where you could click to get a number, depending on which end of the boxplots you want to get data from. I would also wish to learn to create 3D plots to refine and improve the visual aesthetics further. With more data, I could have compared these results to other AML or leukaemia datasets and merge them all into a single graph to visualise all the results from each dataset. </font>
